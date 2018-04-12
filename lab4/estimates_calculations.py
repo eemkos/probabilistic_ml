@@ -12,7 +12,7 @@ class Concept:
         self.checker = checker
         self.prior = prior
         if size is None:
-            self.size = sum(self.gen_dataset())
+            self.size = len(self.gen_dataset())
         else:
             self.size = size
             
@@ -57,7 +57,10 @@ def MAP(data, concepts):
 
 def aposteriori_estimation(data, c):
     eps=1e-9
-    return np.log(likelihood(data, c)+eps)+np.log(c.prior+eps) 
+    lik = likelihood(data, c)
+    if lik == 0:
+        return -np.inf
+    return np.log(+eps)+np.log(c.prior+eps) 
 
 def MAP_value(data, concepts):
     log_posteriori = np.asarray([aposteriori_estimation(data, c) for c in concepts])
@@ -67,12 +70,17 @@ def MAP_arg(data, concepts):
     log_posteriori = np.asarray([aposteriori_estimation(data, c) for c in concepts])
     return np.argmax(log_posteriori)
 
+
+
 def MLE(data, concepts):
     log_likelihood = np.asarray([likelihood_estimation(data, c) for c in concepts])
     return concepts[np.argmax(log_likelihood)]
 
 def likelihood_estimation(data, c):
     eps = 1e-9
+    lik = likelihood(data, c)
+    if lik == 0:
+        return -np.inf
     return np.log(likelihood(data, c)+eps)
 
 def MLE_value(data, concepts):

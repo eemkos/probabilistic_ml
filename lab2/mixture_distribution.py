@@ -36,3 +36,9 @@ class CombinedGaussians:
         last_part = np.random.normal(self.means[-1], self.stds[-1], left_to_sample)
         sample_parts.append(last_part)
         self.samples = sample_parts
+        
+    def get_full_sample(self):
+        sample = []
+        for sm in self.samples:
+            sample += list(sm)
+        return sample

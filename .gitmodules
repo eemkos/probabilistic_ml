@@ -1,0 +1,3 @@
+[submodule "lab5/induction-analysis-naive-bayes"]
+	path = lab5/induction-analysis-naive-bayes
+	url = https://github.com/eemkos/induction-analysis-naive-bayes
